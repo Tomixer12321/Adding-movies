@@ -1,8 +1,8 @@
 import "./Modal.css"
 
-const Modal = () => {
+const Modal = ({notifcontent}) => {
   return <div>
-    film bil pridan
+    {notifcontent}
   </div>
 }
 
