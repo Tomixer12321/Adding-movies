@@ -2,9 +2,21 @@ import Modal from "./components/Modal";
 import data from "./Data";
 import { useState, useReducer } from "react";
 
-const reducer = () => {
+const reducer = (state,action) => {
 
+  if(action.type==="ADD_MOVIE"){
+    const newMovies=[...state.movies,action.payload]
+    return{
+      ...state,
+      movies:newMovies,
+      showNotification:true,
+      NotificationContent:"film bil pridan"
+    }
+  }
+
+  return state
 };
+
 const defaultState = {
   movies: [],
   showNotification: false,
@@ -15,11 +27,12 @@ const App = () => {
   const [movieName, setMovieName] = useState("");
   const [state, dispatch] = useReducer(reducer, defaultState);
 
-  const submitFrom = (e) => {
+  const submitFrom = (e) => { 
     e.preventDefault();
 
     if (movieName) {
-
+      const newMovie={id:new Date().getTime(),name:movieName}
+      dispatch({type: "ADD_MOVIE",payload:newMovie})
     } else {
 
     }
