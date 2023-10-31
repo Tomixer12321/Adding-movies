@@ -13,8 +13,14 @@ const reducer = (state,action) => {
       NotificationContent:"film bil pridan"
     }
   }
-
-  return state
+    if(action.type==="NO_MOVIE_NAME"){
+      return{
+        ...state,
+        showNotification:true,
+        NotificationContent:"pridaj film"
+      }
+    }
+  return new Error("chyba")
 };
 
 const defaultState = {
@@ -34,7 +40,7 @@ const App = () => {
       const newMovie={id:new Date().getTime(),name:movieName}
       dispatch({type: "ADD_MOVIE",payload:newMovie})
     } else {
-
+      dispatch({type:"NO_MOVIE_NAME"})
     }
   };
   return (
