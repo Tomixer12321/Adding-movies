@@ -2,25 +2,30 @@ import Modal from "./components/Modal";
 import data from "./Data";
 import { useState, useReducer } from "react";
 
-const reducer = (state,action) => {
-
-  if(action.type==="ADD_MOVIE"){
-    const newMovies=[...state.movies,action.payload]
-    return{
+const reducer = (state, action) => {
+  if (action.type === "ADD_MOVIE") {
+    const newMovies = [...state.movies, action.payload];
+    return {
       ...state,
-      movies:newMovies,
-      showNotification:true,
-      NotificationContent:"film bil pridan"
-    }
+      movies: newMovies,
+      showNotification: true,
+      NotificationContent: "film bil pridan",
+    };
   }
-    if(action.type==="NO_MOVIE_NAME"){
-      return{
-        ...state,
-        showNotification:true,
-        NotificationContent:"pridaj film"
-      }
-    }
-  return new Error("chyba")
+  if (action.type === "NO_MOVIE_NAME") {
+    return {
+      ...state,
+      showNotification: true,
+      NotificationContent: "pridaj film",
+    };
+  }
+  if (action.type === "CLOSE_NOTIFICATION") {
+    return {
+      ...state,
+      showNotification: false,
+    };
+  }
+  return new Error("chyba");
 };
 
 const defaultState = {
@@ -33,20 +38,26 @@ const App = () => {
   const [movieName, setMovieName] = useState("");
   const [state, dispatch] = useReducer(reducer, defaultState);
 
-  const submitFrom = (e) => { 
+  const submitFrom = (e) => {
     e.preventDefault();
 
     if (movieName) {
-      const newMovie={id:new Date().getTime(),name:movieName}
-      dispatch({type: "ADD_MOVIE",payload:newMovie})
+      const newMovie = { id: new Date().getTime(), name: movieName };
+      dispatch({ type: "ADD_MOVIE", payload: newMovie });
     } else {
-      dispatch({type:"NO_MOVIE_NAME"})
+      dispatch({ type: "NO_MOVIE_NAME" });
     }
+  };
+  const closeNotification = () => {
+    dispatch({ type: "CLOSE_NOTIFICATION" });
   };
   return (
     <section>
       {state.showNotification && (
-        <Modal notifcontent={state.NotificationContent} />
+        <Modal
+          notifcontent={state.NotificationContent}
+          closeNotif={closeNotification}
+        />
       )}
       <form onSubmit={submitFrom}>
         <input type="text" onChange={(e) => setMovieName(e.target.value)} />
