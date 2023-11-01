@@ -63,21 +63,21 @@ const App = () => {
     dispatch({ type: "CLOSE_NOTIFICATION" });
   };
   return (
-    <section>
+    <section className="form">
       {state.showNotification && (
         <Modal
           notifcontent={state.NotificationContent}
           closeNotif={closeNotification}
         />
       )}
-      <form onSubmit={submitFrom}>
+      <form  onSubmit={submitFrom}>
         <input type="text" value={movieName} onChange={(e) => setMovieName(e.target.value)} />
         <input type="submit" value="pridat" />
       </form>
       <div>
         {state.movies.map((oneMovie) => {
           return (
-            <div key={oneMovie.id}>
+            <div className="all-movies" key={oneMovie.id}>
               <p>{oneMovie.name}</p>
               <button type="button" onClick={()=>dispatch({type:"REMOVE_MOVIE",payload:oneMovie.id})}>smazat</button>
             </div>

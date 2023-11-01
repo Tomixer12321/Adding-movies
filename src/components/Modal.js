@@ -6,7 +6,9 @@ const Modal = ({ notifcontent, closeNotif }) => {
       closeNotif();
     }, 2000);
   });
-  return <div>{notifcontent}</div>;
+  return <div>
+      <div className="nitification">{notifcontent}</div>
+    </div>;
 };
 
 export default Modal;
