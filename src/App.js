@@ -1,4 +1,5 @@
 import Modal from "./components/Modal";
+import movies from "./Data";
 import data from "./Data";
 import { useState, useReducer } from "react";
 
@@ -25,6 +26,15 @@ const reducer = (state, action) => {
       showNotification: false,
     };
   }
+  if(action.type==="REMOVE_MOVIE"){
+    const filteredMovies=state.movies.filter((oneMovie)=>{
+      return oneMovie.id !== action.payload
+    })
+    return {
+      ...state,
+      movies:filteredMovies
+    }
+  }
   return new Error("chyba");
 };
 
@@ -47,6 +57,7 @@ const App = () => {
     } else {
       dispatch({ type: "NO_MOVIE_NAME" });
     }
+    setMovieName("")
   };
   const closeNotification = () => {
     dispatch({ type: "CLOSE_NOTIFICATION" });
@@ -60,7 +71,7 @@ const App = () => {
         />
       )}
       <form onSubmit={submitFrom}>
-        <input type="text" onChange={(e) => setMovieName(e.target.value)} />
+        <input type="text" value={movieName} onChange={(e) => setMovieName(e.target.value)} />
         <input type="submit" value="pridat" />
       </form>
       <div>
@@ -68,6 +79,7 @@ const App = () => {
           return (
             <div key={oneMovie.id}>
               <p>{oneMovie.name}</p>
+              <button type="button" onClick={()=>dispatch({type:"REMOVE_MOVIE",payload:oneMovie.id})}>smazat</button>
             </div>
           );
         })}
