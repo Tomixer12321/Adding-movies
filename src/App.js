@@ -26,14 +26,14 @@ const reducer = (state, action) => {
       showNotification: false,
     };
   }
-  if(action.type==="REMOVE_MOVIE"){
-    const filteredMovies=state.movies.filter((oneMovie)=>{
-      return oneMovie.id !== action.payload
-    })
+  if (action.type === "REMOVE_MOVIE") {
+    const filteredMovies = state.movies.filter((oneMovie) => {
+      return oneMovie.id !== action.payload;
+    });
     return {
       ...state,
-      movies:filteredMovies
-    }
+      movies: filteredMovies,
+    };
   }
   return new Error("chyba");
 };
@@ -57,7 +57,7 @@ const App = () => {
     } else {
       dispatch({ type: "NO_MOVIE_NAME" });
     }
-    setMovieName("")
+    setMovieName("");
   };
   const closeNotification = () => {
     dispatch({ type: "CLOSE_NOTIFICATION" });
@@ -70,8 +70,12 @@ const App = () => {
           closeNotif={closeNotification}
         />
       )}
-      <form  onSubmit={submitFrom}>
-        <input type="text" value={movieName} onChange={(e) => setMovieName(e.target.value)} />
+      <form onSubmit={submitFrom}>
+        <input
+          type="text"
+          value={movieName}
+          onChange={(e) => setMovieName(e.target.value)}
+        />
         <input type="submit" value="pridat" />
       </form>
       <div>
@@ -79,7 +83,14 @@ const App = () => {
           return (
             <div className="all-movies" key={oneMovie.id}>
               <p>{oneMovie.name}</p>
-              <button type="button" onClick={()=>dispatch({type:"REMOVE_MOVIE",payload:oneMovie.id})}>smazat</button>
+              <button
+                type="button"
+                onClick={() =>
+                  dispatch({ type: "REMOVE_MOVIE", payload: oneMovie.id })
+                }
+              >
+                smazat
+              </button>
             </div>
           );
         })}
